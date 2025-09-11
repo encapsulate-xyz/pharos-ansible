@@ -1,0 +1,31 @@
+---
+- name: Include user creation task
+  ansible.builtin.include_tasks: tasks/create_user_and_directories.yml
+  vars:
+    home: "{{ prune_home_dir }}"
+    directories: "{{ prune_directories }}"
+    log_file_path: "{{ prune_log_file_path }}"
+
+- name: Include extract binaries task
+  ansible.builtin.include_tasks: extract_binaries.yml
+
+- name: Copy node configuration templates
+  ansible.builtin.template:
+    src: "{{ mygrid.env.json.j2 }}"
+    dest: "{{ prune_mygrid_env_file_path }}"
+    owner: "{{ service_identifier }}"
+    group: "{{ service_identifier }}"
+    mode: "0644"
+  notify:
+    - Restart service
+
+- name: Copy systemd systemd service file
+  ansible.builtin.template:
+    src: "{{ env }}/systemd.service.j2"
+    dest: /etc/systemd/system/{{ service_identifier }}.service
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Reload service
+    - Restart service

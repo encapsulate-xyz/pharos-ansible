@@ -1,0 +1,23 @@
+---
+# maintains directories and paths
+prune_home_dir: /opt/{{ service_identifier }}
+
+prune_bin_dir: "{{ prune_home_dir }}/bin"
+prune_config_dir: "{{ prune_home_dir }}/config"
+prune_env_dir: "{{ prune_home_dir }}/environment"
+prune_log_dir: "{{ prune_home_dir }}/log"
+prune_lib_dir: "{{ prune_home_dir }}/lib"
+
+prune_directories:
+  - "{{ prune_home_dir }}"
+  - "{{ prune_bin_dir }}"
+  - "{{ prune_config_dir }}"
+  - "{{ prune_env_dir }}"
+  - "{{ prune_log_dir }}"
+  - "{{ prune_lib_dir }}"
+
+prune_log_file_path: "{{ prune_log_dir }}/{{ service_identifier }}.log"
+
+prune_mygrid_env_file_path: "{{ prune_config_dir }}/{{ prune_mygrid_env_file_name }}"
+
+prune_environment_general_file_path: "{{ prune_env_dir }}/{{ prune_environment_general_file_name }}"

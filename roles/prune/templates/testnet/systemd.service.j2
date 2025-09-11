@@ -1,0 +1,17 @@
+[Unit]
+Description={{ service_identifier }}
+
+[Service]
+User={{ service_identifier }}
+Group={{ service_identifier }}
+WorkingDirectory={{ prune_bin_dir }}
+EnvironmentFile={{ prune_environment_general_file_path }}
+ExecStart={{ prune_bin_dir }}/{{ service_identifier }} prune --enable_auto_prune \
+--s {{ prune_mygrid_env_file_path }}
+Restart=always
+RestartSec=4
+LimitNOFILE=65536
+MemoryMax=512G
+
+[Install]
+WantedBy=multi-user.target

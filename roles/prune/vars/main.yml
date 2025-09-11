@@ -1,0 +1,11 @@
+---
+# maintains file name, binary names, and anything which is not a directory or path
+
+# config file names
+prune_mygrid_env_file_name: mygrid.env.json
+
+# binary names
+prune_service_default_binary_name: pharos_cli
+
+# Environment file names
+prune_environment_general_file_name: "{{ service_identifier }}.env"
