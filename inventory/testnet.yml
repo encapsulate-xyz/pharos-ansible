@@ -4,11 +4,10 @@ all:
   vars:
     env: testnet
   children:
-    sui:
+    pharos:
       hosts:
-        bridge.sui.testnet.encapsulate.xyz:
-          type: bridge
-        validator.sui.testnet.encapsulate.xyz:
+        validator.pharos.testnet.encapsulate.xyz:
           type: validator
-        fullnode.sui.testnet.encapsulate.xyz:
-          type: fullnode
+        pharos_prune_host:
+          ansible_host: validator.pharos.testnet.encapsulate.xyz
+          type: prune
