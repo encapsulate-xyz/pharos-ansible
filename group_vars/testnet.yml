@@ -1,9 +1,10 @@
 ---
 # maintains versions and can overwrite all.yml
-sui:
+pharos:
   validator:
-    version: 218db6e510d2d7fee0a6118fa87fc14baeabbd64
-  fullnode:
-    version: 218db6e510d2d7fee0a6118fa87fc14baeabbd64
-  bridge:
-    version: dce2e0683c2472a64858d13dc77b82448b4139f1
+    version: v0.1.3
+    node_ip: "95.217.4.193"
+    node_id: 3fb06aa005dedb4b4014be2fd1c046e9e968b73d1bfaa15b02796b36295808a8
+    snapshot_url: https://snapshot.dplabs-internal.com/testnet/snapshot-2025-08-29-15-44.tar.gz
+  prune:
+    version: v0.1.3

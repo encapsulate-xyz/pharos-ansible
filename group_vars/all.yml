@@ -4,6 +4,7 @@
 org: encapsulate
 domain_regex: ^([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$
 monitor_server_dns: monitor.encapsulate.xyz
+pushgateway_dns: pushgateway.encapsulate.xyz
 ansible_port: 8192
 
 architecture_map:
@@ -16,25 +17,19 @@ default_node_types:
 
 tmp_dir: /tmp
 
-go:
-  root: /usr/local/go
-  path: "{{ tmp_dir }}/go"
-  module111: "on"
-
-sui:
+pharos:
   validator:
-    source_url: https://releases.sui.io
+    source_url: https://github.com/PharosNetwork/resources/releases/download/latest
     ports:
-      server_listen_port: 9191
-      metrics_port: 9186
-  fullnode:
-    version: 88888888888
-    source_url: https://releases.sui.io
-    ports:
-      server_listen_port: 9191
-      metrics_port: 9186
-  bridge:
-    source_url: https://releases.sui.io
-    ports:
-      server_listen_port: 9191
-      metrics_port: 9186
+      client_tls_port: 18000
+      client_http_port: 18100
+      client_ws_port: 18200
+      client_wss_port: 18300
+      domain0_port: 19000
+      domain1_port: 19001
+      domain2_port: 19002
+      rpc_port: 20000
+      master_lite_admin_port: 23100
+      server_lite_admin_port: 23101
+  prune:
+    source_url: https://github.com/PharosNetwork/resources/releases/download/latest
