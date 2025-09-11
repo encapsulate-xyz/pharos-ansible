@@ -1,0 +1,31 @@
+---
+- name: Stop service
+  ansible.builtin.systemd:
+    name: "{{ service_identifier }}"
+    state: stopped
+
+- name: Delete data folder
+  ansible.builtin.file:
+    path: "{{ sync_public_data_dir }}"
+    state: absent
+
+- name: Download and extract snapshot
+  ansible.builtin.unarchive:
+    src: "{{ snapshot_url | default(pharos.validator.snapshot_url) }}"
+    dest: "{{ sync_data_dir }}"
+    remote_src: true
+    owner: "{{ service_identifier }}"
+    group: "{{ service_identifier }}"
+    mode: "0755"
+
+- name: Set ownership for data directory
+  ansible.builtin.file:
+    path: "{{ sync_data_dir }}"
+    owner: "{{ service_identifier }}"
+    group: "{{ service_identifier }}"
+    recurse: true
+
+- name: Restart service
+  ansible.builtin.systemd:
+    name: "{{ service_identifier }}"
+    state: restarted
