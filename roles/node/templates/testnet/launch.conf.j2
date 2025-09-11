@@ -1,0 +1,37 @@
+{
+  "log": {},
+  "parameters": {
+    "/SetEnv/SERVICE": "light",
+    "/SetEnv/CHAIN_ID": "pharos-node",
+    "/SetEnv/DOMAIN_LABEL": "domain",
+    "/SetEnv/LIGHT_RPC_LISTEN_URL": "0.0.0.0:{{ pharos.validator.ports.rpc_port }}",
+    "/SetEnv/LIGHT_RPC_ADVERTISE_URL": "{{ pharos.validator.node_ip }}:{{ pharos.validator.ports.rpc_port }}",
+    "/SetEnv/CLIENT_ADVERTISE_URLS": "tls://{{ pharos.validator.node_ip }}:{{ pharos.validator.ports.client_tls_port }},http://{{ pharos.validator.node_ip }}:{{ pharos.validator.ports.client_http_port }},ws://{{ pharos.validator.node_ip }}:{{ pharos.validator.ports.client_ws_port }},wss://{{ pharos.validator.node_ip }}:{{ pharos.validator.ports.client_wss_port }}",
+    "/SetEnv/CLIENT_LISTEN_URLS": "tls://0.0.0.0:{{ pharos.validator.ports.client_tls_port }},http://0.0.0.0:{{ pharos.validator.ports.client_http_port }},ws://0.0.0.0:{{ pharos.validator.ports.client_ws_port }},wss://0.0.0.0:{{ pharos.validator.ports.client_wss_port }}",
+    "/SetEnv/PORTAL_UUID": "100",
+    "/SetEnv/DOMAIN_LISTEN_URLS0": "tcp://0.0.0.0:{{ pharos.validator.ports.domain0_port }}",
+    "/SetEnv/DOMAIN_LISTEN_URLS1": "tcp://0.0.0.0:{{ pharos.validator.ports.domain1_port }}",
+    "/SetEnv/DOMAIN_LISTEN_URLS2": "tcp://0.0.0.0:{{ pharos.validator.ports.domain2_port }}",
+    "/SetEnv/STORAGE_RPC_ADVERTISE_URL": "{{ pharos.validator.node_ip }}:{{ pharos.validator.ports.rpc_port }}",
+    "/SetEnv/STORAGE_ID": "0",
+    "/SetEnv/STORAGE_MSU": "0-255",
+    "/SetEnv/TXPOOL_PARTITION_LIST": "0-255",
+    "/SetEnv/NODE_ID": "{{ pharos.validator.node_id }}"
+  },
+  "init_config": {
+    "chain_id": "pharos-node",
+    "domain_id": "domain",
+    "etcd": {
+      "enable": 0,
+      "timeout": 5000,
+      "retry_sleep_time": 1,
+      "endpoints": []
+    },
+    "data_path": "{{ node_data_dir }}",
+    "mygrid_env_path": "{{ node_mygrid_env_file_path }}",
+    "mygrid_conf_path": "{{ node_mygrid_conf_file_path }}",
+    "mygrid_client_id": "light",
+    "service_name": "light",
+    "mygrid_client_deploy_mode": "light"
+  }
+}

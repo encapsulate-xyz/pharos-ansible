@@ -1,0 +1,70 @@
+---
+- name: Copy doamin json file
+  ansible.builtin.template:
+    src: "{{ env }}/domain.json.j2"
+    dest: "{{ node_domain_config_file_path }}"
+    owner: "{{ service_identifier }}"
+    group: "{{ service_identifier }}"
+    mode: "0644"
+
+- name: Delete data directory
+  ansible.builtin.file:
+    path: "{{ node_data_dir }}"
+    state: absent
+
+- name: Copy Dockerfile
+  ansible.builtin.template:
+    src: "{{ env }}/Dockerfile.j2"
+    dest: "{{ node_home_dir }}/Dockerfile"
+    owner: "{{ service_identifier }}"
+    group: "{{ service_identifier }}"
+    mode: "0644"
+
+- name: Build Docker image
+  community.docker.docker_image:
+    name: "{{ service_identifier }}:{{ pharos.validator.version }}"
+    source: build
+    build:
+      path: "{{ node_home_dir }}"
+      dockerfile: "Dockerfile"
+
+- name: Create temporary container
+  community.docker.docker_container:
+    name: "{{ service_identifier }}"
+    image: "{{ service_identifier }}:{{ pharos.validator.version }}"
+    state: present
+    recreate: true
+
+- name: Copy Data folder
+  ansible.builtin.shell: >
+    docker cp {{ service_identifier }}:{{ node_data_dir }} {{ node_home_dir }}
+  args:
+    executable: /bin/bash
+  register: copy_result
+  changed_when: copy_result.rc == 0
+  failed_when:
+    - copy_result.rc != 0
+    - "'No such container' in copy_result.stderr"
+
+- name: Set ownership for data directory
+  ansible.builtin.file:
+    path: "{{ node_data_dir }}"
+    owner: "{{ service_identifier }}"
+    group: "{{ service_identifier }}"
+    recurse: true
+
+- name: Remove container
+  community.docker.docker_container:
+    name: "{{ service_identifier }}"
+    state: absent
+
+- name: Remove Docker image
+  community.docker.docker_image:
+    name: "{{ service_identifier }}:{{ pharos.validator.version }}"
+    state: absent
+    force_absent: true
+
+- name: Delete Dockerfile
+  ansible.builtin.file:
+    path: "{{ node_home_dir }}/Dockerfile"
+    state: absent

@@ -1,0 +1,203 @@
+{
+  "build_root": "../",
+  "chain_id": "pharos-node",
+  "chain_protocol": "evm",
+  "domain_label": "domain",
+  "version": "2.0.0",
+  "run_user": "root",
+  "deploy_dir": "{{ node_home_dir }}",
+  "genesis_conf": "../genesis.conf",
+  "mygrid": {
+    "conf": {
+      "enable_adaptive": true,
+      "filepath": "../conf/mygrid.conf.json"
+    },
+    "env": {
+      "enable_adaptive": true,
+      "filepath": "../conf/mygrid.light.env.json"
+    }
+  },
+  "secret": {
+    "domain": {
+      "key_type": "prime256v1",
+      "files": {
+        "key": "{{ node_prime_key_file_path }}",
+        "key_pub": "{{ node_prime_pub_key_file_path }}",
+        "stabilizing_key": "{{ node_bls_key_file_path }}",
+        "stabilizing_pk": "{{ node_bls_pub_key_file_path }}"
+      }
+    },
+    "client": {
+      "key_type": "prime256v1",
+      "files": {
+        "ca_cert": "../conf/resources/portal/prime256v1/client/ca.crt",
+        "cert": "../conf/resources/portal/prime256v1/client/client.crt",
+        "key": "../conf/resources/portal/prime256v1/client/client.key"
+      }
+    }
+  },
+  "use_generated_keys": true,
+  "key_passwd": "123abc",
+  "docker": {
+    "enable": false,
+    "registry": "registry-vpc.cn-shanghai.aliyuncs.com/pharos"
+  },
+  "common": {
+    "env": {},
+    "log": {
+      "storage_write": {
+        "filename": "{{ node_log_dir }}/storage_write.log",
+        "max_file_size": 209715200,
+        "max_files": 1,
+        "level": "info",
+        "flush": false
+      },
+      "storage_read": {
+        "filename": "{{ node_log_dir }}/storage_read.log",
+        "max_file_size": 209715200,
+        "max_files": 1,
+        "level": "info",
+        "flush": false
+      },
+      "pamir": {
+        "filename": "{{ node_log_dir }}/pamir.log",
+        "max_file_size": 209715200,
+        "max_files": 1,
+        "level": "info",
+        "flush": false
+      },
+      "vm": {
+        "filename": "{{ node_log_dir }}/vm.log",
+        "max_file_size": 209715200,
+        "max_files": 1,
+        "level": "info",
+        "flush": false
+      },
+      "consensus": {
+        "filename": "{{ node_log_dir }}/consensus.log",
+        "max_file_size": 209715200,
+        "max_files": 1,
+        "level": "info",
+        "flush": true
+      },
+      "pharos": {
+        "filename": "{{ node_log_dir }}/pharos.log",
+        "max_file_size": 209715200,
+        "max_files": 1,
+        "level": "info",
+        "flush": false
+      },
+      "tracing": {
+        "filename": "{{ node_log_dir }}/tracing.log",
+        "max_file_size": 209715200,
+        "max_files": 1,
+        "level": "error",
+        "flush": false
+      },
+      "audit": {
+        "filename": "{{ node_log_dir }}/audit.log",
+        "max_file_size": 209715200,
+        "max_files": 1,
+        "level": "error",
+        "flush": false
+      },
+      "profile": {
+        "filename": "{{ node_log_dir }}/profile.log",
+        "max_file_size": 209715200,
+        "max_files": 1,
+        "level": "info",
+        "flush": false
+      },
+      "alert": {
+        "filename": "{{ node_log_dir }}/alert.log",
+        "max_file_size": 209715200,
+        "max_files": 1,
+        "level": "info",
+        "flush": false
+      },
+      "cubenet": {
+        "filename": "{{ node_log_dir }}/cubenet.log",
+        "max_file_size": 209715200,
+        "max_files": 1,
+        "level": "info",
+        "flush": false
+      },
+      "traffic_in": {
+        "filename": "{{ node_log_dir }}/traffic_in.log",
+        "max_file_size": 209715200,
+        "max_files": 1,
+        "level": "info",
+        "flush": false
+      },
+      "traffic_out": {
+        "filename": "{{ node_log_dir }}/traffic_out.log",
+        "max_file_size": 209715200,
+        "max_files": 1,
+        "level": "info",
+        "flush": false
+      },
+      "aldaba": {
+        "filename": "{{ node_log_dir }}/aldaba.log",
+        "max_file_size": 209715200,
+        "max_files": 1,
+        "level": "info",
+        "flush": false
+      },
+      "access": {
+        "filename": "{{ node_log_dir }}/access.log",
+        "max_file_size": 209715200,
+        "max_files": 1,
+        "level": "info",
+        "flush": false
+      }
+    },
+    "config": {
+      "metrics": {
+        "enable_pamir_cetina": false,
+        "pamir_cetina_push_address": "metrics.prometheus-prometheus-pushgateway.prometheus-agent-namespace.svc.cluster.local",
+        "pamir_cetina_job_name": "pharos_evm_16c"
+      }
+    },
+    "gflags": {
+      "enable_eip155": "true",
+      "max_pending_txs_depth": "64",
+      "enable_perf": "false",
+      "enable_rpc_rate_limit": "false"
+    },
+    "metrics": {
+      "enable": false,
+      "push_address": "",
+      "push_port": "",
+      "job_name": "",
+      "push_interval": ""
+    }
+  },
+  "cluster": {
+    "light": {
+      "service": "light",
+      "ip": "127.0.0.1",
+      "host": "{{ pharos.validator.node_ip }}",
+      "dir": "{{ node_home_dir }}",
+      "args": ["-d"],
+      "env": {
+        "LIGHT_RPC_LISTEN_URL": "0.0.0.0:{{ pharos.validator.ports.rpc_port }}",
+        "LIGHT_RPC_ADVERTISE_URL": "{{ pharos.validator.node_ip }}:{{ pharos.validator.ports.rpc_port }}",
+        "CLIENT_ADVERTISE_URLS": "tls://{{ pharos.validator.node_ip }}:{{ pharos.validator.ports.client_tls_port }},http://{{ pharos.validator.node_ip }}:{{ pharos.validator.ports.client_http_port }},ws://{{ pharos.validator.node_ip }}:{{ pharos.validator.ports.client_ws_port }},wss://{{ pharos.validator.node_ip }}:{{ pharos.validator.ports.client_wss_port }}",
+        "CLIENT_LISTEN_URLS": "tls://0.0.0.0:{{ pharos.validator.ports.client_tls_port }},http://0.0.0.0:{{ pharos.validator.ports.client_http_port }},ws://0.0.0.0:{{ pharos.validator.ports.client_ws_port }},wss://0.0.0.0:{{ pharos.validator.ports.client_wss_port }}",
+        "PORTAL_UUID": "100",
+        "DOMAIN_LISTEN_URLS0": "tcp://0.0.0.0:{{ pharos.validator.ports.domain0_port }}",
+        "DOMAIN_LISTEN_URLS1": "tcp://0.0.0.0:{{ pharos.validator.ports.domain1_port }}",
+        "DOMAIN_LISTEN_URLS2": "tcp://0.0.0.0:{{ pharos.validator.ports.domain2_port }}",
+        "STORAGE_RPC_ADVERTISE_URL": "{{ pharos.validator.node_ip }}:{{ pharos.validator.ports.rpc_port }}",
+        "STORAGE_ID": "0",
+        "STORAGE_MSU": "0-255",
+        "TXPOOL_PARTITION_LIST": "0-255",
+        "NODE_ID": "{{ pharos.validator.node_id }}"
+      },
+      "log": {},
+      "config": {},
+      "gflags": {}
+    }
+  },
+  "initial_stake_in_gwei": 1000000000
+}

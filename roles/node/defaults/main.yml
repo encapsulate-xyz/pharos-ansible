@@ -1,0 +1,38 @@
+---
+# maintains directories and paths
+node_home_dir: /opt/{{ service_identifier }}
+
+node_bin_dir: "{{ node_home_dir }}/bin"
+node_config_dir: "{{ node_home_dir }}/conf"
+node_data_dir: "{{ node_home_dir }}/data"
+node_env_dir: "{{ node_home_dir }}/environment"
+node_log_dir: "{{ node_home_dir }}/log"
+node_lib_dir: "{{ node_home_dir }}/lib"
+node_key_dir: "{{ node_home_dir }}/key"
+
+node_directories:
+  - "{{ node_home_dir }}"
+  - "{{ node_bin_dir }}"
+  - "{{ node_config_dir }}"
+  - "{{ node_data_dir }}"
+  - "{{ node_env_dir }}"
+  - "{{ node_key_dir }}"
+  - "{{ node_log_dir }}"
+  - "{{ node_lib_dir }}"
+
+node_log_file_path: "{{ node_log_dir }}/{{ service_identifier }}.log"
+
+node_domain_config_file_path: "{{ node_config_dir }}/{{ node_domain_config_file_name }}"
+node_mygrid_env_file_path: "{{ node_config_dir }}/{{ node_mygrid_env_file_name }}"
+node_mygrid_conf_file_path: "{{ node_config_dir }}/{{ node_mygrid_conf_file_name }}"
+node_launch_conf_file_path: "{{ node_config_dir }}/{{ node_launch_conf_file_name }}"
+node_monitor_conf_file_path: "{{ node_config_dir }}/{{ node_monitor_conf_file_name }}"
+node_cubenet_conf_file_path: "{{ node_config_dir }}/{{ node_cubenet_conf_file_name }}"
+
+node_environment_general_file_path: "{{ node_env_dir }}/{{ node_environment_general_file_name }}"
+
+node_bls_key_file_path: "{{ node_key_dir }}/{{ node_bls_key_file_name }}"
+node_bls_pub_key_file_path: "{{ node_key_dir }}/{{ node_bls_pub_key_file_name }}"
+
+node_prime_key_file_path: "{{ node_key_dir }}/{{ node_prime_key_file_name }}"
+node_prime_pub_key_file_path: "{{ node_key_dir }}/{{ node_prime_pub_key_file_name }}"

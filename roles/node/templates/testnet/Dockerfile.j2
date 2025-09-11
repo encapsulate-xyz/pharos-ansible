@@ -1,0 +1,63 @@
+# Base image
+FROM ubuntu:noble
+
+# Install required packages
+RUN apt update && apt install -y sudo git tar openssh-server wget && \
+    apt-get install -y locales && locale-gen en_US.UTF-8
+
+# Set locale environment variables
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
+
+# Create required directories
+RUN mkdir -p /tmp/pharos /opt/pharos/key /run/sshd
+
+# Copy key directory
+COPY ./key /opt/pharos/key
+
+# Set working directory for further operations
+WORKDIR /tmp/pharos
+
+# Download the Pharos tarball from GitHub
+RUN wget {{ pharos.validator.source_url }}/pharos-{{ pharos.validator.version }}.tar.gz
+
+# Extract the tarball
+RUN tar -xzf pharos-{{ pharos.validator.version }}.tar.gz
+
+# Download configuration files for the testnet setup
+RUN wget -O genesis.conf https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/testnet/genesis.conf && \
+    wget -O conf/compute.conf https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/testnet/64c512g/conf/compute.conf && \
+    wget -O conf/controller.conf https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/testnet/64c512g/conf/controller.conf && \
+    wget -O conf/cubenet.conf https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/testnet/64c512g/conf/cubenet.conf && \
+    wget -O conf/dog.conf https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/testnet/64c512g/conf/dog.conf && \
+    wget -O conf/global.conf https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/testnet/64c512g/conf/global.conf && \
+    wget -O conf/mygrid.conf.json https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/testnet/64c512g/conf/mygrid.conf.json && \
+    wget -O conf/portal.conf https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/testnet/64c512g/conf/portal.conf && \
+    wget -O conf/txpool.conf https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/testnet/64c512g/conf/txpool.conf
+
+# Copy doamin0 json config
+COPY ./conf/domain.json /tmp/pharos/scripts
+
+# Move into scripts directory to run setup scripts
+WORKDIR /tmp/pharos/scripts
+
+# Make shell scripts executable
+RUN chmod +x install_ops.sh ops_prepare.sh
+
+# Remove ssh restart command from install script
+RUN sed -i '/sudo systemctl restart ssh/d' install_ops.sh
+
+# Run the installation script
+RUN ./install_ops.sh
+
+# Start SSH daemon and run initial pharos deployment
+RUN /usr/sbin/sshd && \
+    ~/.local/bin/pipenv run pharos deploy domain.json
+
+# Run bootstrap process
+RUN /usr/sbin/sshd && \
+    ~/.local/bin/pipenv run pharos bootstrap domain.json
+
+# Start container with interactive shell
+CMD ["/bin/bash"]
