@@ -1,5 +1,5 @@
 ---
-- name: Copy doamin json file
+- name: Copy domain json file
   ansible.builtin.template:
     src: "{{ env }}/domain.json.j2"
     dest: "{{ node_domain_config_file_path }}"
