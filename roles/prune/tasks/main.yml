@@ -11,7 +11,7 @@
 
 - name: Copy node configuration templates
   ansible.builtin.template:
-    src: "{{ mygrid.env.json.j2 }}"
+    src: mygrid.env.json.j2
     dest: "{{ prune_mygrid_env_file_path }}"
     owner: "{{ service_identifier }}"
     group: "{{ service_identifier }}"
