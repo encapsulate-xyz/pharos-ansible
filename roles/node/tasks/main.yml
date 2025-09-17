@@ -20,6 +20,15 @@
 
 - name: Include extract binaries task
   ansible.builtin.include_tasks: extract_binaries.yml
+  vars:
+    extracted_dir: "{{ tmp_dir }}/{{ service_identifier }}/bin"
+    path_mapping:
+      - extracted_path: "{{ extracted_dir }}/{{ node_binaries.pharos_default.default_binary_name }}"
+        dest_path: "{{ node_bin_dir }}/{{ service_identifier }}"
+      - extracted_path: "{{ extracted_dir }}/{{ node_binaries.pharos_evm_lib.default_binary_name }}"
+        dest_path: "{{ node_lib_dir }}/{{ node_binaries.pharos_evm_lib.dest_binary_name }}"
+      - extracted_path: "{{ extracted_dir }}/{{ node_binaries.pharos_version.default_binary_name }}"
+        dest_path: "{{ node_bin_dir }}/{{ node_binaries.pharos_version.dest_binary_name }}"
 
 - name: Copy public cert file
   ansible.builtin.copy:

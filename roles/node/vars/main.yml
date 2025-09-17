@@ -17,7 +17,16 @@ node_monitor_conf_file_name: monitor.conf
 node_cubenet_conf_file_name: cubenet.conf
 
 # binary names
-node_service_default_binary_name: pharos_light
+node_binaries:
+  pharos_default:
+    default_binary_name: pharos_light
+    dest_binary_name: "{{ service_identifier }}"
+  pharos_evm_lib:
+    default_binary_name: libevmone.so
+    dest_binary_name: libevmone.so.0.15
+  pharos_version:
+    default_binary_name: VERSION
+    dest_binary_name: VERSION
 
 # Environment file names
 node_environment_general_file_name: "{{ service_identifier }}.env"

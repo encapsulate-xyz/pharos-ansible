@@ -16,39 +16,16 @@
     group: root
     mode: "0755"
 
-- name: Copy binary file
+- name: Copy binary files
   ansible.builtin.copy:
-    src: "{{ tmp_dir }}/{{ service_identifier }}/bin/{{ node_service_default_binary_name }}"
-    dest: "{{ node_bin_dir }}/{{ service_identifier }}"
+    src: "{{ item.extracted_path }}"
+    dest: "{{ item.dest_path }}"
     remote_src: true
     owner: root
     group: root
     force: true
     mode: "0755"
-  notify:
-    - Restart service
-
-- name: Copy lib file
-  ansible.builtin.copy:
-    src: "{{ tmp_dir }}/{{ service_identifier }}/bin/libevmone.so"
-    dest: "{{ node_lib_dir }}/libevmone.so.0.15"
-    remote_src: true
-    owner: root
-    group: root
-    force: true
-    mode: "0755"
-  notify:
-    - Restart service
-
-- name: Copy Version file
-  ansible.builtin.copy:
-    src: "{{ tmp_dir }}/{{ service_identifier }}/bin/VERSION"
-    dest: "{{ node_bin_dir }}/VERSION"
-    remote_src: true
-    owner: root
-    group: root
-    force: true
-    mode: "0644"
+  with_items: "{{ path_mapping }}"
   notify:
     - Restart service
 
