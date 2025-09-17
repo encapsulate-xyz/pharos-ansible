@@ -46,105 +46,98 @@
     "env": {},
     "log": {
       "storage_write": {
-        "filename": "{{ node_log_dir }}/storage_write.log",
+        "filename": "{{ node_log_file_path }}",
         "max_file_size": 209715200,
         "max_files": 1,
         "level": "info",
         "flush": false
       },
       "storage_read": {
-        "filename": "{{ node_log_dir }}/storage_read.log",
+        "filename": "{{ node_log_file_path }}",
         "max_file_size": 209715200,
         "max_files": 1,
         "level": "info",
         "flush": false
       },
       "pamir": {
-        "filename": "{{ node_log_dir }}/pamir.log",
+        "filename": "{{ node_log_file_path }}",
         "max_file_size": 209715200,
         "max_files": 1,
         "level": "info",
         "flush": false
       },
       "vm": {
-        "filename": "{{ node_log_dir }}/vm.log",
+        "filename": "{{ node_log_file_path }}",
         "max_file_size": 209715200,
         "max_files": 1,
         "level": "info",
         "flush": false
       },
       "consensus": {
-        "filename": "{{ node_log_dir }}/consensus.log",
+        "filename": "{{ node_log_file_path }}",
         "max_file_size": 209715200,
         "max_files": 1,
         "level": "info",
         "flush": true
       },
       "pharos": {
-        "filename": "{{ node_log_dir }}/pharos.log",
+        "filename": "{{ node_log_file_path }}",
         "max_file_size": 209715200,
         "max_files": 1,
         "level": "info",
         "flush": false
       },
       "tracing": {
-        "filename": "{{ node_log_dir }}/tracing.log",
+        "filename": "{{ node_log_file_path }}",
         "max_file_size": 209715200,
         "max_files": 1,
         "level": "error",
         "flush": false
       },
       "audit": {
-        "filename": "{{ node_log_dir }}/audit.log",
+        "filename": "{{ node_log_file_path }}",
         "max_file_size": 209715200,
         "max_files": 1,
         "level": "error",
         "flush": false
       },
       "profile": {
-        "filename": "{{ node_log_dir }}/profile.log",
+        "filename": "{{ node_log_file_path }}",
         "max_file_size": 209715200,
         "max_files": 1,
         "level": "info",
         "flush": false
       },
       "alert": {
-        "filename": "{{ node_log_dir }}/alert.log",
+        "filename": "{{ node_log_file_path }}",
         "max_file_size": 209715200,
         "max_files": 1,
         "level": "info",
         "flush": false
       },
       "cubenet": {
-        "filename": "{{ node_log_dir }}/cubenet.log",
+        "filename": "{{ node_log_file_path }}",
         "max_file_size": 209715200,
         "max_files": 1,
         "level": "info",
         "flush": false
       },
       "traffic_in": {
-        "filename": "{{ node_log_dir }}/traffic_in.log",
+        "filename": "{{ node_log_file_path }}",
         "max_file_size": 209715200,
         "max_files": 1,
         "level": "info",
         "flush": false
       },
       "traffic_out": {
-        "filename": "{{ node_log_dir }}/traffic_out.log",
-        "max_file_size": 209715200,
-        "max_files": 1,
-        "level": "info",
-        "flush": false
-      },
-      "aldaba": {
-        "filename": "{{ node_log_dir }}/aldaba.log",
+        "filename": "{{ node_log_file_path }}",
         "max_file_size": 209715200,
         "max_files": 1,
         "level": "info",
         "flush": false
       },
       "access": {
-        "filename": "{{ node_log_dir }}/access.log",
+        "filename": "{{ node_log_file_path }}",
         "max_file_size": 209715200,
         "max_files": 1,
         "level": "info",
