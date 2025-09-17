@@ -8,6 +8,15 @@
 
 - name: Include extract binaries task
   ansible.builtin.include_tasks: extract_binaries.yml
+  vars:
+    extracted_dir: "{{ tmp_dir }}/{{ service_identifier }}/bin"
+    path_mapping:
+      - extracted_path: "{{ extracted_dir }}/{{ prune_binaries.pharos_default.default_binary_name }}"
+        dest_path: "{{ prune_bin_dir }}/{{ service_identifier }}"
+      - extracted_path: "{{ extracted_dir }}/{{ prune_binaries.pharos_evm_lib.default_binary_name }}"
+        dest_path: "{{ prune_lib_dir }}/{{ prune_binaries.pharos_evm_lib.dest_binary_name }}"
+      - extracted_path: "{{ extracted_dir }}/{{ prune_binaries.pharos_version.default_binary_name }}"
+        dest_path: "{{ prune_bin_dir }}/{{ prune_binaries.pharos_version.dest_binary_name }}"
 
 - name: Copy node configuration templates
   ansible.builtin.template:

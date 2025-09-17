@@ -5,7 +5,16 @@
 prune_mygrid_env_file_name: mygrid.env.json
 
 # binary names
-prune_service_default_binary_name: pharos_cli
+prune_binaries:
+  pharos_default:
+    default_binary_name: pharos_cli
+    dest_binary_name: "{{ service_identifier }}"
+  pharos_evm_lib:
+    default_binary_name: libevmone.so
+    dest_binary_name: libevmone.so.0.15
+  pharos_version:
+    default_binary_name: VERSION
+    dest_binary_name: VERSION
 
 # Environment file names
 prune_environment_general_file_name: "{{ service_identifier }}.env"
