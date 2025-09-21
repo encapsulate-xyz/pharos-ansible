@@ -20,7 +20,7 @@ COPY ./key /opt/pharos/key
 WORKDIR /tmp/pharos
 
 # Download the Pharos tarball from GitHub
-RUN wget {{ pharos.validator.source_url }}/pharos-{{ pharos.validator.version }}.tar.gz
+RUN wget {{ pharos.validator.source_url }}/{{ pharos.validator.version }}/pharos-{{ pharos.validator.version }}.tar.gz
 
 # Extract the tarball
 RUN tar -xzf pharos-{{ pharos.validator.version }}.tar.gz

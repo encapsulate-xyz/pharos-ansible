@@ -9,7 +9,7 @@
 
 - name: Unarchive the binary
   ansible.builtin.unarchive:
-    src: "{{ pharos.validator.source_url }}/pharos-{{ pharos.validator.version }}.tar.gz"
+    src: "{{ pharos.validator.source_url }}/{{ pharos.validator.version }}/pharos-{{ pharos.validator.version }}.tar.gz"
     dest: "{{ tmp_dir }}/{{ service_identifier }}"
     remote_src: true
     owner: root
