@@ -17,6 +17,10 @@ default_node_types:
 
 tmp_dir: /tmp
 
+mygrid_dir:
+  disk_path: /opt
+  data_path: pharos/data
+
 pharos:
   validator:
     source_url: https://github.com/PharosNetwork/resources/releases/download
