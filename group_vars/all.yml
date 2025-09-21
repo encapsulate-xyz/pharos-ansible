@@ -19,7 +19,7 @@ tmp_dir: /tmp
 
 pharos:
   validator:
-    source_url: https://github.com/PharosNetwork/resources/releases/download/latest
+    source_url: https://github.com/PharosNetwork/resources/releases/download
     ports:
       client_tls_port: 18000
       client_http_port: 18100
@@ -32,4 +32,4 @@ pharos:
       master_lite_admin_port: 23100
       server_lite_admin_port: 23101
   prune:
-    source_url: https://github.com/PharosNetwork/resources/releases/download/latest
+    source_url: https://github.com/PharosNetwork/resources/releases/download
