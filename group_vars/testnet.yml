@@ -2,9 +2,9 @@
 # maintains versions and can overwrite all.yml
 pharos:
   validator:
-    version: v0.7.0
+    version: v0.7.1
     node_ip: ""
     node_id: ""
     snapshot_url: https://snapshot.dplabs-internal.com/testnet/snapshot-2025-08-29-15-44.tar.gz
   prune:
-    version: v0.7.0
+    version: v0.7.1
