@@ -26,15 +26,7 @@ RUN wget {{ pharos.validator.source_url }}/{{ pharos.validator.version }}/pharos
 RUN tar -xzf pharos-{{ pharos.validator.version }}.tar.gz
 
 # Download configuration files for the testnet setup
-RUN wget -O genesis.conf https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/testnet/genesis.conf && \
-    wget -O conf/compute.conf https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/testnet/64c512g/conf/compute.conf && \
-    wget -O conf/controller.conf https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/testnet/64c512g/conf/controller.conf && \
-    wget -O conf/cubenet.conf https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/testnet/64c512g/conf/cubenet.conf && \
-    wget -O conf/dog.conf https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/testnet/64c512g/conf/dog.conf && \
-    wget -O conf/global.conf https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/testnet/64c512g/conf/global.conf && \
-    wget -O conf/mygrid.conf.json https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/testnet/64c512g/conf/mygrid.conf.json && \
-    wget -O conf/portal.conf https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/testnet/64c512g/conf/portal.conf && \
-    wget -O conf/txpool.conf https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/testnet/64c512g/conf/txpool.conf
+RUN wget -O genesis.conf https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/testnet/genesis.conf
 
 # Copy doamin0 json config
 COPY ./conf/domain.json /tmp/pharos/scripts
