@@ -1,0 +1,24 @@
+---
+- name: Create genesis db
+  ansible.builtin.shell: >
+    ./{{ node_binaries.pharos_cli.dest_binary_name }} genesis -c {{ node_config_file_path }} -g {{ node_genesis_file_path }}
+  args:
+    chdir: "{{ node_bin_dir }}"
+    creates: "{{ node_data_dir }}/public"
+    executable: /bin/bash
+  environment:
+    LD_PRELOAD: "{{ node_lib_dir }}/{{ node_binaries.pharos_evm_lib.dest_binary_name }}"
+
+- name: Set ownership for data directory
+  ansible.builtin.file:
+    path: "{{ node_data_dir }}"
+    owner: "{{ service_identifier }}"
+    group: "{{ project }}"
+    recurse: true
+
+- name: Set ownership for log directory
+  ansible.builtin.file:
+    path: "{{ node_log_dir }}"
+    owner: "{{ service_identifier }}"
+    group: "{{ project }}"
+    recurse: true

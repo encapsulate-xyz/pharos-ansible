@@ -1,0 +1,35 @@
+---
+# maintains file name, binary names, and anything which is not a directory or path
+
+# key file names
+node_domain_key_file_name: domain.key
+node_domain_pub_key_file_name: domain.pub
+
+node_stabilizing_key_file_name: stabilizing.key
+node_stabilizing_pub_key_file_name: stabilizing.pub
+
+# config file names
+node_config_file_name: pharos.conf
+node_genesis_file_name: genesis.json
+
+# Environment file names
+node_environment_general_file_name: "{{ service_identifier }}.env"
+node_environment_secrets_file_name: "{{ service_identifier }}.secrets.env"
+
+# binary names
+node_binaries:
+  pharos_default:
+    default_binary_name: pharos_light
+    dest_binary_name: "{{ service_identifier }}"
+  pharos_cli:
+    default_binary_name: pharos_cli
+    dest_binary_name: pharos-cli
+  pharos_ops:
+    default_binary_name: ops
+    dest_binary_name: pharos-ops
+  pharos_evm_lib:
+    default_binary_name: libevmone.so
+    dest_binary_name: libevmone.so
+  pharos_version:
+    default_binary_name: VERSION
+    dest_binary_name: VERSION

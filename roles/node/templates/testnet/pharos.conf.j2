@@ -1,0 +1,31 @@
+{
+  "chain": {
+    "monitor_config": {
+      "enable_pamir_cetina": false,
+      "pamir_cetina_job_name": "{{ project }}-{{ env }}",
+      "pamir_cetina_push_address": "127.0.0.1",
+      "pamir_cetina_push_interval": 5,
+      "pamir_cetina_push_port": 9091
+    },
+    "secret_config": {
+      "domain_key_path": "{{ node_domain_key_file_path }}",
+      "stabilizing_key_path": "{{ node_stabilizing_key_file_path }}"
+    },
+    "startup_config": {
+      "init_config": {
+        "meta_path": "{{ node_data_dir }}",
+        "host_ip": "127.0.0.1",
+        "http_port": "{{ pharos.validator.ports.http_port }}",
+        "rpc_port": "{{ pharos.validator.ports.rpc_port }}",
+        "tcp_port": "{{ pharos.validator.ports.tcp_port }}",
+        "ws_port": "{{ pharos.validator.ports.ws_port }}"
+      }
+    }
+  },
+  "storage": {
+    "mygrid_conf": {},
+    "mygrid_env": {
+      "storage_data_path": "{{ node_data_dir }}"
+    }
+  }
+}

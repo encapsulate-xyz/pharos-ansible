@@ -1,0 +1,101 @@
+---
+- name: Include the network's ufw vars file
+  ansible.builtin.include_vars:
+    file: vars/ufw_rules.yml
+
+- name: Apply UFW rules
+  ansible.builtin.include_tasks: tasks/apply_ufw_rules.yml
+  loop: "{{ node_ufw_rules }}"
+
+- name: Include user creation task
+  ansible.builtin.include_tasks: tasks/create_user_and_directories.yml
+  vars:
+    home: "{{ node_home_dir }}"
+    directories: "{{ node_directories }}"
+    log_file_path: "{{ node_log_file_path }}"
+
+- name: Include extract binaries task
+  ansible.builtin.include_tasks: extract_binaries.yml
+  vars:
+    extracted_dir: "{{ tmp_dir }}/{{ service_identifier }}/bin"
+    path_mapping:
+      - extracted_path: "{{ extracted_dir }}/{{ node_binaries.pharos_default.default_binary_name }}"
+        dest_path: "{{ node_bin_dir }}/{{ service_identifier }}"
+      - extracted_path: "{{ extracted_dir }}/{{ node_binaries.pharos_evm_lib.default_binary_name }}"
+        dest_path: "{{ node_lib_dir }}/{{ node_binaries.pharos_evm_lib.dest_binary_name }}"
+      - extracted_path: "{{ extracted_dir }}/{{ node_binaries.pharos_cli.default_binary_name }}"
+        dest_path: "{{ node_bin_dir }}/{{ node_binaries.pharos_cli.dest_binary_name }}"
+
+- name: Copy node configuration templates
+  ansible.builtin.template:
+    src: "{{ env }}/pharos.conf.j2"
+    dest: "{{ node_config_file_path }}"
+    owner: "{{ service_identifier }}"
+    group: "{{ project }}"
+    mode: "0644"
+  notify:
+    - Restart service
+
+- name: Copy general environment file
+  ansible.builtin.template:
+    src: "{{ env }}/general.env.j2"
+    dest: "{{ node_environment_general_file_path }}"
+    owner: "{{ service_identifier }}"
+    group: "{{ project }}"
+    mode: "0644"
+  notify:
+    - Restart service
+
+- name: Copy public cert files
+  ansible.builtin.copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ service_identifier }}"
+    group: "{{ project }}"
+    mode: "0644"
+  loop:
+    - { src: "{{ env }}/domain.pub", dest: "{{ node_domain_pub_key_file_path }}" }
+    - { src: "{{ env }}/stabilizing.pub", dest: "{{ node_stabilizing_pub_key_file_path }}" }
+  notify:
+    - Restart service
+
+- name: Fetch secrets from HCP Vault and save to files
+  when:
+    - type == 'validator'
+    - fetch_vault_secrets | default(false) | bool
+  block:
+    - name: Fetch domain key and save
+      ansible.builtin.include_tasks: tasks/get_and_save_vault_secret.yml
+      vars:
+        vault_secret_source_path: "{{ project }}/{{ org }}/{{ type }}/{{ node_domain_key_file_name }}"
+        secret_destination_path: "{{ node_domain_key_file_path }}"
+        secret_type: key
+
+    - name: Fetch stabilizing key and save
+      ansible.builtin.include_tasks: tasks/get_and_save_vault_secret.yml
+      vars:
+        vault_secret_source_path: "{{ project }}/{{ org }}/{{ type }}/{{ node_stabilizing_key_file_name }}"
+        secret_destination_path: "{{ node_stabilizing_key_file_path }}"
+        secret_type: key
+
+    - name: Fetch secrets env file and save
+      ansible.builtin.include_tasks: tasks/get_and_save_vault_secret.yml
+      vars:
+        vault_secret_source_path: "{{ project }}/{{ org }}/{{ type }}/{{ node_environment_secrets_file_name }}"
+        secret_destination_path: "{{ node_environment_secrets_file_path }}"
+        secret_type: environment
+
+- name: Include initilise database task
+  ansible.builtin.include_tasks: initilise_database.yml
+  when: init_db | default(false) | bool
+
+- name: Copy systemd systemd service file
+  ansible.builtin.template:
+    src: "{{ env }}/systemd.service.j2"
+    dest: /etc/systemd/system/{{ service_identifier }}.service
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Reload service
+    - Restart service
