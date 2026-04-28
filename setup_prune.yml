@@ -1,0 +1,27 @@
+---
+- name: Enable auto prune
+  hosts: all
+  become: true
+  gather_facts: true
+  vars:
+    allowed_node_types: [validator]
+  vars_files:
+    - group_vars/ports.yml
+    - group_vars/all.yml
+    - group_vars/vault.yml
+    - group_vars/{{ env }}.yml
+    - roles/node/defaults/main.yml
+
+  pre_tasks:
+    - name: Setup environment
+      when: type in allowed_node_types
+      block:
+        - name: Include environment setup tasks
+          ansible.builtin.include_tasks: tasks/setup_environment.yml
+
+  tasks:
+    - name: Run node playbook
+      when: type in allowed_node_types
+      block:
+        - name: Include enable prune task
+          ansible.builtin.include_tasks: roles/node/tasks/enable_prune.yml
