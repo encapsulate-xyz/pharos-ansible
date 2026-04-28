@@ -1,0 +1,7 @@
+---
+sync_home_dir: /opt/{{ service_identifier }}
+
+sync_data_dir: "{{ sync_home_dir }}/data"
+
+sync_public_data_dir: "{{ sync_data_dir }}/public"
+sync_local_storage_dir: "{{ sync_data_dir }}/local_storage"
