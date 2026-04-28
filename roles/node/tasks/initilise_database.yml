@@ -1,6 +1,7 @@
 ---
 - name: Create genesis db
   ansible.builtin.shell: >
+    ulimit -n 65536 &&
     ./{{ node_binaries.pharos_cli.dest_binary_name }} genesis -c {{ node_config_file_path }} -g {{ node_genesis_file_path }}
   args:
     chdir: "{{ node_bin_dir }}"
