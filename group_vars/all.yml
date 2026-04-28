@@ -25,3 +25,10 @@ pharos:
       ws_port: 18200
       tcp_port: 19000
       rpc_port: 20000
+
+pushgateway:
+  service_identifier: pushgateway
+  source_url: https://github.com/prometheus/pushgateway/releases/download
+  file_extension: tar.gz
+  ports:
+    listen_port: 9091
