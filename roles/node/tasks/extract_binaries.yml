@@ -1,0 +1,61 @@
+---
+- name: Create tmp directory
+  ansible.builtin.file:
+    path: "{{ tmp_dir }}/{{ service_identifier }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Unarchive the binary
+  vars:
+    pharos_filename: "pharos-{{ pharos.validator.version }}-{{ pharos.validator.commit }}.tar.gz"
+  ansible.builtin.unarchive:
+    src: "{{ pharos.validator.source_url }}/{{ pharos.validator.version }}/{{ pharos_filename }}"
+    dest: "{{ tmp_dir }}/{{ service_identifier }}"
+    remote_src: true
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Copy binary files
+  ansible.builtin.copy:
+    src: "{{ item.extracted_path }}"
+    dest: "{{ item.dest_path }}"
+    remote_src: true
+    owner: root
+    group: root
+    force: true
+    mode: "0755"
+  with_items: "{{ path_mapping }}"
+  notify:
+    - Restart service
+
+- name: Download the ops binary
+  ansible.builtin.get_url:
+    url: "{{ pharos.validator.ops_url }}/ops-linux-amd64"
+    dest: "{{ node_bin_dir }}/{{ node_binaries.pharos_ops.dest_binary_name }}"
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Download the genesis file
+  ansible.builtin.get_url:
+    url: "{{ pharos.validator.genesis_url }}"
+    dest: "{{ node_genesis_file_path }}"
+    owner: "{{ service_identifier }}"
+    group: "{{ project }}"
+    mode: "0644"
+
+- name: Download the version file
+  ansible.builtin.get_url:
+    url: "{{ pharos.validator.version_url }}"
+    dest: "{{ node_bin_dir }}/{{ node_binaries.pharos_version.dest_binary_name }}"
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Clear tmp directory
+  ansible.builtin.file:
+    path: "{{ tmp_dir }}/{{ service_identifier }}"
+    state: absent

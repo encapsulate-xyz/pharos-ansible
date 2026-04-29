@@ -16,25 +16,19 @@ default_node_types:
 
 tmp_dir: /tmp
 
-go:
-  root: /usr/local/go
-  path: "{{ tmp_dir }}/go"
-  module111: "on"
-
-sui:
+pharos:
   validator:
-    source_url: https://releases.sui.io
+    source_url: https://github.com/PharosNetwork/resources/releases/download
+    ops_url: https://github.com/PharosNetwork/ops/releases/latest/download
     ports:
-      server_listen_port: 9191
-      metrics_port: 9186
-  fullnode:
-    version: 88888888888
-    source_url: https://releases.sui.io
-    ports:
-      server_listen_port: 9191
-      metrics_port: 9186
-  bridge:
-    source_url: https://releases.sui.io
-    ports:
-      server_listen_port: 9191
-      metrics_port: 9186
+      http_port: 18100
+      ws_port: 18200
+      tcp_port: 19000
+      rpc_port: 20000
+
+pushgateway:
+  service_identifier: pushgateway
+  source_url: https://github.com/prometheus/pushgateway/releases/download
+  file_extension: tar.gz
+  ports:
+    listen_port: 9091

@@ -1,0 +1,18 @@
+---
+pushgateway_home_dir: /opt/{{ service_identifier }}
+
+pushgateway_bin_dir: "{{ pushgateway_home_dir }}/bin"
+pushgateway_config_dir: "{{ pushgateway_home_dir }}/config"
+pushgateway_data_dir: "{{ pushgateway_home_dir }}/data"
+pushgateway_log_dir: "{{ pushgateway_home_dir }}/log"
+
+pushgateway_directories:
+  - "{{ pushgateway_home_dir }}"
+  - "{{ pushgateway_bin_dir }}"
+  - "{{ pushgateway_config_dir }}"
+  - "{{ pushgateway_data_dir }}"
+  - "{{ pushgateway_log_dir }}"
+
+pushgateway_log_file_path: "{{ pushgateway_log_dir }}/{{ service_identifier }}.log"
+
+pushgateway_web_config_file_path: "{{ pushgateway_config_dir }}/{{ pushgateway_web_config_file_name }}"

@@ -1,0 +1,34 @@
+[Unit]
+Description=Pushgateway Service
+
+[Service]
+User={{ service_identifier }}
+Group={{ project }}
+WorkingDirectory={{ pushgateway_home_dir }}
+ExecStart={{ pushgateway_bin_dir }}/{{ service_identifier }} \
+    --persistence.file={{ pushgateway_data_dir }}/pushgateway.data \
+    --web.listen-address 0.0.0.0:{{ pushgateway.ports.listen_port }} \
+    --web.route-prefix=/
+Restart=always
+RestartSec=4
+LimitNOFILE=65536
+MemoryMax=64G
+StandardOutput=append:{{ pushgateway_log_file_path }}
+StandardError=inherit
+
+# --- Hardening & Security ---
+NoNewPrivileges=true
+RestrictSUIDSGID=true
+LockPersonality=true
+
+# --- File System Isolation ---
+ProtectHome=true
+PrivateTmp=true
+
+# --- System Protection ---
+ProtectHostname=true
+ProtectClock=true
+ProtectKernelModules=true
+
+[Install]
+WantedBy=multi-user.target
