@@ -99,3 +99,7 @@
   notify:
     - Reload service
     - Restart service
+
+- name: Include pruning task
+  ansible.builtin.include_tasks: enable_prune.yml
+  when: enable_pruning | default(false) | bool

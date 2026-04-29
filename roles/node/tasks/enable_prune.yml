@@ -1,10 +1,4 @@
 ---
-- name: Include node vars files
-  ansible.builtin.include_vars: "{{ item }}"
-  loop:
-    - roles/node/defaults/main.yml
-    - roles/node/vars/main.yml
-
 - name: Prune the database
   ansible.builtin.shell: >
     ./{{ node_binaries.pharos_cli.dest_binary_name }} prune --c {{ node_config_file_path }} --enable_auto_prune
