@@ -69,7 +69,7 @@
       vars:
         vault_secret_source_path: "{{ project }}/{{ org }}/{{ type }}/{{ node_domain_key_file_name }}"
         secret_destination_path: "{{ node_domain_key_file_path }}"
-        secret_type: key
+        secret_type: base64
 
     - name: Fetch stabilizing key and save
       ansible.builtin.include_tasks: tasks/get_and_save_vault_secret.yml
