@@ -11,6 +11,7 @@
   loop:
     - { path: "{{ sync_public_data_dir }}" }
     - { path: "{{ sync_local_storage_dir }}" }
+  when: clean_data_dirs | default(false) | bool
 
 - name: Download and extract snapshot
   ansible.builtin.unarchive:
