@@ -13,13 +13,30 @@
     - { path: "{{ sync_local_storage_dir }}" }
   when: clean_data_dirs | default(false) | bool
 
-- name: Download and extract snapshot
-  ansible.builtin.unarchive:
-    src: "{{ snapshot_url | default(pharos.validator.snapshot_url) }}"
-    dest: "{{ sync_data_dir }}"
-    remote_src: true
-    owner: "{{ service_identifier }}"
-    group: "{{ project }}"
+- name: Ensure aria2c is installed
+  ansible.builtin.apt:
+    name: aria2
+    state: present
+
+- name: Download snapshot with aria2c
+  ansible.builtin.command: >
+    aria2c -x 16 -s 16 --continue=true 
+    --dir="{{ sync_data_dir }}" 
+    --out="snapshot.tar.gz" 
+    "{{ snapshot_url | default(pharos.validator.snapshot_url) }}"
+  async: 86400
+  poll: 60
+
+- name: Extract the snapshot
+  ansible.builtin.command: >
+    tar -xzf "{{ sync_data_dir }}/snapshot.tar.gz" -C "{{ sync_data_dir }}"
+  async: 86400
+  poll: 60
+
+- name: Clean up the snapshot archive
+  ansible.builtin.file:
+    path: "{{ sync_data_dir }}/snapshot.tar.gz"
+    state: absent
 
 - name: Set ownership for data directory
   ansible.builtin.file:
