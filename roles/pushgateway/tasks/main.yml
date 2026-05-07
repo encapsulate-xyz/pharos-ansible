@@ -9,6 +9,7 @@
 - name: Include Download, Unarchive and Copy Binary task
   ansible.builtin.include_tasks: tasks/extract_binary.yml
   vars:
+    system_arch: "{{ ansible_facts['system'] | lower }}-{{ architecture_map[ansible_facts['architecture']] }}"
     extracted_binary_dir: "pushgateway-{{ pushgateway.version }}.{{ system_arch }}"
     source_url: "{{ pushgateway.source_url }}"
     suffix_url: "v{{ pushgateway.version }}/pushgateway-{{ pushgateway.version }}.{{ system_arch }}.{{ pushgateway.file_extension }}"
