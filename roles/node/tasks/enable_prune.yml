@@ -1,4 +1,20 @@
 ---
+- name: Wait untill node is healthy
+  ansible.builtin.uri:
+    url: "http://localhost:{{ pharos.validator.ports.http_port }}"
+    method: POST
+    body_format: json
+    body:
+      jsonrpc: "2.0"
+      method: "eth_blockNumber"
+      params: []
+      id: 1
+  register: rpc_check
+  ignore_errors: true
+  until: rpc_check.status == 200
+  retries: 24
+  delay: 30
+
 - name: Prune the database
   ansible.builtin.shell: >
     ./{{ node_binaries.pharos_cli.dest_binary_name }} prune --c {{ node_config_file_path }} --enable_auto_prune
@@ -7,3 +23,17 @@
     executable: /bin/bash
   environment:
     LD_PRELOAD: "{{ node_lib_dir }}/{{ node_binaries.pharos_evm_lib.dest_binary_name }}"
+
+- name: Set ownership for data directory
+  ansible.builtin.file:
+    path: "{{ node_data_dir }}"
+    owner: "{{ service_identifier }}"
+    group: "{{ project }}"
+    recurse: true
+
+- name: Set ownership for log directory
+  ansible.builtin.file:
+    path: "{{ node_log_dir }}"
+    owner: "{{ service_identifier }}"
+    group: "{{ project }}"
+    recurse: true
