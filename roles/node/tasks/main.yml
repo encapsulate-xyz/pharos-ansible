@@ -14,6 +14,15 @@
     directories: "{{ node_directories }}"
     log_file_path: "{{ node_log_file_path }}"
 
+- name: Add users to the pharos group for read access
+  ansible.builtin.user:
+    name: "{{ item }}"
+    groups: pharos
+    append: yes
+  loop:
+    - kowshik
+    - aditya
+
 - name: Include extract binaries task
   ansible.builtin.include_tasks: extract_binaries.yml
   vars:
