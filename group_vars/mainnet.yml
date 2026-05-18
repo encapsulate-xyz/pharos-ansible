@@ -6,4 +6,4 @@ pharos:
     commit: f301031a
     genesis_url: https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/mainnet.genesis
     version_url: https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/mainnet.version
-    snapshot_url:
+    snapshot_url: https://snapshot.dplabs-internal.com/mainnet/mainnet-snapshot-2026-05-08-15.tar.gz
