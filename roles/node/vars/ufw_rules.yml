@@ -5,3 +5,21 @@ node_ufw_rules:
     rule: allow
     from: any
     comment: tcp_port
+
+  - port: "{{ pharos.validator.ports.http_port }}"
+    proto: tcp
+    rule: allow
+    from: any
+    comment: http_port
+
+  - port: "{{ pharos.validator.ports.ws_port }}"
+    proto: tcp
+    rule: allow
+    from: any
+    comment: ws_port
+
+  - port: "{{ pharos.validator.ports.rpc_port }}"
+    proto: tcp
+    rule: allow
+    from: any
+    comment: rpc_port
