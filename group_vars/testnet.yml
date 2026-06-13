@@ -3,7 +3,7 @@
 pharos:
   validator:
     version: v0.13.1
-    commit: dbae72a0
+    commit: 6d82e95c
     genesis_url: https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/atlantic.genesis
     version_url: https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/atlantic.version
     snapshot_url: https://snapshot.dplabs-internal.com/atlantic/atlantic-snapshot-2026-03-05-11.tar.gz
