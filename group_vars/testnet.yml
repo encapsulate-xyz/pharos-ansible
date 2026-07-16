@@ -2,8 +2,8 @@
 # maintains versions and can overwrite all.yml
 pharos:
   validator:
-    version: v0.14.0
-    commit: 895c8f87
+    version: v0.14.2
+    commit: 17134fab
     genesis_url: https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/atlantic.genesis
     version_url: https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/atlantic.version
     snapshot_url: https://snapshot.dplabs-internal.com/atlantic/atlantic-snapshot-2026-03-05-11.tar.gz
