@@ -13,7 +13,6 @@ node_config_file_name: pharos.conf
 node_genesis_file_name: genesis.json
 
 # Environment file names
-node_environment_general_file_name: "{{ service_identifier }}.env"
 node_environment_secrets_file_name: "{{ service_identifier }}.secrets.env"
 
 # binary names
@@ -27,9 +26,6 @@ node_binaries:
   pharos_ops:
     default_binary_name: ops
     dest_binary_name: pharos-ops
-  pharos_evm_lib:
-    default_binary_name: libevmone.so
-    dest_binary_name: libevmone.so
   pharos_version:
     default_binary_name: VERSION
     dest_binary_name: VERSION
