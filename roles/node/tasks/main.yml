@@ -30,8 +30,6 @@
     path_mapping:
       - extracted_path: "{{ extracted_dir }}/{{ node_binaries.pharos_default.default_binary_name }}"
         dest_path: "{{ node_bin_dir }}/{{ service_identifier }}"
-      - extracted_path: "{{ extracted_dir }}/{{ node_binaries.pharos_evm_lib.default_binary_name }}"
-        dest_path: "{{ node_lib_dir }}/{{ node_binaries.pharos_evm_lib.dest_binary_name }}"
       - extracted_path: "{{ extracted_dir }}/{{ node_binaries.pharos_cli.default_binary_name }}"
         dest_path: "{{ node_bin_dir }}/{{ node_binaries.pharos_cli.dest_binary_name }}"
 
@@ -39,16 +37,6 @@
   ansible.builtin.template:
     src: "{{ env }}/pharos.conf.j2"
     dest: "{{ node_config_file_path }}"
-    owner: "{{ service_identifier }}"
-    group: "{{ project }}"
-    mode: "0644"
-  notify:
-    - Restart service
-
-- name: Copy general environment file
-  ansible.builtin.template:
-    src: "{{ env }}/general.env.j2"
-    dest: "{{ node_environment_general_file_path }}"
     owner: "{{ service_identifier }}"
     group: "{{ project }}"
     mode: "0644"
