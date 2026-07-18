@@ -7,7 +7,6 @@ node_config_dir: "{{ node_home_dir }}/config"
 node_data_dir: "{{ node_home_dir }}/data"
 node_env_dir: "{{ node_home_dir }}/environment"
 node_log_dir: "{{ node_home_dir }}/log"
-node_lib_dir: "{{ node_home_dir }}/lib"
 node_key_dir: "{{ node_home_dir }}/keys"
 
 node_directories:
@@ -18,7 +17,6 @@ node_directories:
   - "{{ node_env_dir }}"
   - "{{ node_key_dir }}"
   - "{{ node_log_dir }}"
-  - "{{ node_lib_dir }}"
 
 node_log_file_path: "{{ node_log_dir }}/{{ service_identifier }}.log"
 
