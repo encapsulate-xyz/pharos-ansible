@@ -7,8 +7,6 @@
     chdir: "{{ node_bin_dir }}"
     creates: "{{ node_data_dir }}/public"
     executable: /bin/bash
-  environment:
-    LD_PRELOAD: "{{ node_lib_dir }}/{{ node_binaries.pharos_evm_lib.dest_binary_name }}"
 
 - name: Set ownership for data directory
   ansible.builtin.file:
