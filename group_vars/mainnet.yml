@@ -2,8 +2,8 @@
 # maintains versions and can overwrite all.yml
 pharos:
   validator:
-    version: v0.12.2
-    commit: f301031a
+    version: v0.16.0
+    commit: 3cf35988
     genesis_url: https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/mainnet.genesis
     version_url: https://raw.githubusercontent.com/PharosNetwork/resources/refs/heads/main/mainnet.version
-    snapshot_url: https://snapshot.dplabs-internal.com/mainnet/mainnet-snapshot-2026-05-08-15.tar.gz
+    snapshot_url: https://snapshot.dplabs-internal.com/mainnet/mainnet-snapshot-2026-10-15-07.tar.gz
