@@ -1,0 +1,24 @@
+---
+- name: Enable auto prune on pharos node
+  hosts: all
+  become: true
+  gather_facts: true
+  vars:
+    allowed_node_types: [validator]
+  vars_files:
+    - group_vars/all.yml
+    - group_vars/{{ env }}.yml
+
+  tasks:
+    - name: Run enable prune tasks
+      when: type in allowed_node_types
+      block:
+        - name: Set project and service identifier in facts
+          ansible.builtin.set_fact:
+            project: "{{ group_names[0] }}"
+            service_identifier: "{{ group_names[0] }}{{ '' if type in default_node_types else '-' + type }}"
+
+        - name: Include enable prune tasks from node role
+          ansible.builtin.include_role:
+            name: node
+            tasks_from: enable_prune

@@ -25,6 +25,19 @@
     chdir: "{{ node_bin_dir }}"
     executable: /bin/bash
 
+- name: Query pruning settings
+  ansible.builtin.shell: >
+    ./{{ node_binaries.pharos_cli.dest_binary_name }} prune --c {{ node_config_file_path }} --get
+  args:
+    chdir: "{{ node_bin_dir }}"
+    executable: /bin/bash
+  register: prune_info
+  changed_when: false
+
+- name: Display pruning settings
+  ansible.builtin.debug:
+    msg: "{{ prune_info.stdout_lines }}"
+
 - name: Set ownership for data directory
   ansible.builtin.file:
     path: "{{ node_data_dir }}"
