@@ -21,3 +21,15 @@
     - name: Include pushgateway role
       ansible.builtin.include_role:
         name: pushgateway
+        public: true
+
+  post_tasks:
+    - name: Verify pushgateway
+      block:
+        - name: Include verify service task
+          ansible.builtin.include_tasks: tasks/verify_service.yml
+          vars:
+            log_file_path: "{{ pushgateway_log_file_path }}"
+            version_command: "{{ pushgateway_bin_dir }}/{{ service_identifier }} --version"
+            expected_version: "{{ pushgateway.version }}"
+            health_url: "http://localhost:{{ pushgateway.ports.listen_port }}/-/healthy"
